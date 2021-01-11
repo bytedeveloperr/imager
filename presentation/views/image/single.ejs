@@ -1,0 +1,105 @@
+<%- include("../partials/head") %> 
+<%- include("../partials/topbar") %> 
+<section class="row">
+  <div class="col-md-8">
+    <article class="card shadow-sm mb-2">
+      <div class="card-body">
+        <% if(error != ""){ %> 
+            <div class="alert alert-danger" role="alert"><%= error %></div>
+        <%}%>
+        <h5 class="mb-3"><%= image.title %></h5>
+         <ul class="list-unstyled">
+          <li class="mb-3 "><strong>Tags: </strong> <%- image.tags || '<span class="text-muted">This image has no tags</span>' %></li>
+          <li class="mb-3 "><strong>License: </strong> <%- image.license || '<span class="text-muted">This image has no license</span>' %></li>
+          <li class="mb-3 "><strong>Credits: </strong> <%- image.credits || '<span class="text-muted">This image has no credits</span>' %></li>
+          <li class="mb-3 "><strong>Size: </strong>  <%- image.size/1000000 %>MB </li>
+        </ul>
+        <figure>
+          <h6 class="fw-bold">Description</h6>
+          <figcaption class="mb-3"><%- image.description%></figcaption>
+          <img src="http://localhost:3000/<%- image.path %>" alt="" class="img-fluid">
+        </figure>
+        <div class="d-flex">
+          <a href="" class="btn text-primary"><i class="fa fa-download"></i> download</a>
+          <% if(loggedinUser._id === image.user._id){ %> 
+          <a href="" class="btn text-primary"  data-bs-toggle="modal" data-bs-target="#editImage"><i class="fa fa-edit"></i> update</a>
+          <form action="/image/<%- image._id %>?_method=DELETE" method="post">
+            <button class="btn text-danger" type="submit"><i class="fa fa-trash"></i> delete</button>
+          </form>
+
+          <div class="modal fade" id="editImage" tabindex="-1" aria-labelledby="editImageLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editImageLabel">Update Image</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/image/<%- image._id %>?_method=PUT">
+                      <div class="mb-3">
+                          <label for="title" class="form-label">Image Title</label>
+                          <input type="text" class="form-control" name="title" id="title" value="<%= image.title %>">
+                      </div>
+                      <div class="mb-3">
+                          <label for="tags" class="form-label">Image Tags <small>(separate with comma)</small></label>
+                          <input type="text" class="form-control" name="tags" id="tags" value="<%= image.tags %>">
+                      </div>
+                      <div class="mb-3">
+                          <label for="tags" class="form-label">Image Description</label>
+                          <textarea class="form-control" name="description" id="description"><%= image.description %></textarea>
+                      </div>
+                      <div class="mb-3">
+                          <label for="license" class="form-label">License</label>
+                          <input type="text" class="form-control" name="license" id="license" value="<%= image.license %>">
+                      </div>
+                      <div class="mb-3">
+                          <label for="credits" class="form-label">Credits</label>
+                          <input type="text" class="form-control" name="credits" id="credits" value="<%= image.credits %>">
+                      </div>
+                      <div class="mb-3">
+                          <label for="album" class="form-label">Select Album <small>(or an album will be created automatically)</small>()</label>
+                          <input type="text" class="form-control" name="album" id="album" value="<%= image.album.name %>">
+                      </div>
+                      <div class="d-grid">
+                          <button type="submit" class="btn btn-primary">Update</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %> 
+        </div>
+      </div>
+    </article>
+  </div>
+  <aside class="col-md-4">
+    <section>
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <p class="mb-2">Image uploaded by: </p>
+          <div class="d-flex">
+            <img src="https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar_0.png" alt="" class="rounded-circle" width="25px" height="25px" /> &nbsp;
+            <h6 class=""><a href="" class="text-reset text-decoration-none"><%= image.user.fullName %></a></h6>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="d-flex justify-content-between">
+      <h5 class="">Similar Images</h5>
+      </div>
+      <% var arr3 = [1,2,3,4,5]; arr3.forEach(a => { %> 
+      <div class="card shadow-sm mb-2">
+        <div class="card-body">
+          <p class="mb-1 fw-bold"><a href="" class="stretched-link text-decoration-none text-reset">Lorem ipsum dolor sit amet.</a></p>
+          <div class="small">
+            <span><i class="fa fa-globe"></i> Public</span>
+          </div>
+        </div>
+      </div>
+      <% }) %> 
+    </section>
+  </aside>
+</section>
+<%- include("../partials/footer") %> 

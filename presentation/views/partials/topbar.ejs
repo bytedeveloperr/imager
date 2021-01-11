@@ -1,0 +1,42 @@
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger mb-5 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Imager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <% if(loggedinUser._id){ %> 
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/album/all">Albums</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/market">Marketplace</a>
+                </li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= loggedinUser.fullName %>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/account/<%- loggedinUser._id %>">Account</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+                </li>
+                <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <% } %> 
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search Imager...">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+            </div>
+        </div>
+    </nav>
+    <main class="container">

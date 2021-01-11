@@ -1,0 +1,28 @@
+<%- include("../partials/head") %> 
+<section class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow-sm mt-5">
+            <div class="card-body">
+                <h4 class="mb-4 fw-bold">Login to your account</h4>
+                <form method="POST" action="/login">
+                    <% if(error != ""){ %> 
+                        <div class="alert alert-danger" role="alert"><%= error %></div>
+                    <%}%>
+                    <!-- <input type="hidden" name="_csrf" value="<%#= _csrf %> "> -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" name="email" id="email" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" />
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-danger">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<%- include("../partials/footer") %> 

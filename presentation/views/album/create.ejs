@@ -1,0 +1,28 @@
+<%- include("../partials/head") %> 
+<%- include("../partials/topbar") %> 
+<section class="row">
+    <aside class="col-md-6 offset-md-3">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <form method="POST" action="/album/create">
+                    <h4 class="fw-bold mb-3">Create Album</h4>
+                     <% if(error != ""){ %> 
+                        <div class="alert alert-danger" role="alert"><%= error %></div>
+                    <%}%>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Album Name</label>
+                        <input type="text" class="form-control" name="name" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Album Description</label>
+                        <textarea class="form-control" name="description" id="description" required></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </aside>
+</section>
+<%- include("../partials/footer") %> 

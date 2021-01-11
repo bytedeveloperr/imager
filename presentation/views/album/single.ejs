@@ -1,0 +1,92 @@
+<%- include("../partials/head") %> 
+<%- include("../partials/topbar") %> 
+<section class="row">
+  <div class="col-md-8">
+    <article class="card shadow-sm mb-2">
+      <div class="card-body">
+         <% if(error != ""){ %> 
+            <div class="alert alert-danger" role="alert"><%= error %></div>
+        <%}%>
+        <h5 class="mb-3"><%= album.name %></h5>
+         <ul class="list-unstyled">
+          <li class="mb-3 "><strong>Total number of Images: </strong>  <%- album.images.length %></li>
+          <li class="mb-3 "><strong>Description: </strong>  <%- album.description %></li>
+        </ul>
+        <h6 class="">Images in this Album</h6>
+        <div class="row">
+          <% if(album.images.length < 1){ %>
+            <p class="text-muted text-center">No image in this album</p>  
+          <% } else { %>  
+          <% album.images.forEach(image => { %>
+            <div class="col-6">
+              <a href="/image/<%- image._id %>" class=""><img src="http://localhost:3000/<%- image.path %>" alt="" width="100%" height="200px"></a>
+            </div>
+          <% })} %>  
+        </div>
+        <div class="d-flex">
+          <% if(loggedinUser._id === album.user._id){ %> 
+          <a href="" class="btn text-primary"  data-bs-toggle="modal" data-bs-target="#editAlbum"><i class="fa fa-edit"></i> update</a>
+          <form action="/album/<%- album._id %>?_method=DELETE" method="post">
+            <button class="btn text-danger" type="submit"><i class="fa fa-trash"></i> delete</button>
+          </form>
+
+          <div class="modal fade" id="editAlbum" tabindex="-1" aria-labelledby="editAlbumLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editAlbumLabel">Update Album</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/album/<%- album._id %>?_method=PUT">
+                      <div class="mb-3">
+                          <label for="name" class="form-label">Album Name</label>
+                          <input type="text" class="form-control" name="name" id="name" value="<%= album.name %>" readonly>
+                      </div>
+                      <div class="mb-3">
+                          <label for="tags" class="form-label">Album Description</label>
+                          <textarea class="form-control" name="description" id="description"><%= album.description %></textarea>
+                      </div>  
+                      <div class="d-grid">
+                          <button type="submit" class="btn btn-primary">Update</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </article>
+  </div>
+  <aside class="col-md-4">
+    <section>
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <p class="mb-2">Album created by: </p>
+          <div class="d-flex">
+            <img src="https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar_0.png" alt="" class="rounded-circle" width="25px" height="25px" /> &nbsp;
+            <h6 class=""><a href="" class="text-reset text-decoration-none"><%= album.user.fullName %></a></h6>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="d-flex justify-content-between">
+      <h5 class="">Similar Images</h5>
+      </div>
+      <% var arr3 = [1,2,3,4,5]; arr3.forEach(a => { %> 
+      <div class="card shadow-sm mb-2">
+        <div class="card-body">
+          <p class="mb-1 fw-bold"><a href="" class="stretched-link text-decoration-none text-reset">Lorem ipsum dolor sit amet.</a></p>
+          <div class="small">
+            <span><i class="fa fa-globe"></i> Public</span>
+          </div>
+        </div>
+      </div>
+      <% }) %> 
+    </section>
+  </aside>
+</section>
+<%- include("../partials/footer") %> 

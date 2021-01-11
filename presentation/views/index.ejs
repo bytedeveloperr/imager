@@ -1,0 +1,76 @@
+<%- include("./partials/head") %> 
+<%- include("./partials/topbar") %>
+ <div class="card shadow-sm d-md-none d-sm-block mb-3">
+  <div class="card-body">
+    <i class="fa fa-upload text-reset"></i> <a href="/image/upload" class="stretched-link text-reset text-decoration-none">Upload Image(s)</a>
+  </div>
+</div>
+<section class="row">
+  <aside class="col-md-3">
+    <div class="d-flex justify-content-between">
+      <h5 class="">Albums</h5> <a href="/album/create" class="text-decoration-none"><i class="fa fa-plus"></i> new</a>
+    </div>
+    <% if(userAlbums.length < 1){ %>
+      <p class="text-center text-muted">You do not have any album</p>
+    <% } else { %>  
+    <% userAlbums.forEach(album => { %> 
+    <div class="card shadow-sm mb-2">
+      <div class="card-body">
+        <p class="mb-1 fw-bold"><a href="/album/<%- album._id %> " class="stretched-link text-decoration-none text-reset"><%= album.name %></a></p>
+      </div>
+    </div>
+    <% })} %>
+    <% if(userAlbums.length >= 1){ %>
+      <a href="/album/all" class="btn btn-sm">view all albums</a>
+    <% } %>
+  </aside>
+  <div class="col-md-6">
+    <div class="card shadow-sm d-none d-md-block">
+      <div class="card-body">
+        <i class="fa fa-upload text-reset"></i> <a href="/image/upload" class="stretched-link text-reset text-decoration-none">Upload Image(s)</a>
+      </div>
+    </div>
+    <div class="my-3">
+      <h5 class="">Activites</h5>
+    </div>
+    <% if(publicImages.length < 1){ %>
+      <p class="text-center text-muted">No activities to show</p>
+    <% } else { %> 
+    <% publicImages.forEach(image => { %>
+    <article class="card shadow-sm mb-2">
+      <div class="card-body">
+        <h6 class="mb-3"><a href="/user/<%= image.user._id %>" class="text-decoration-none text-reset"><%= image.user.fullName %></a>  &rarrb; <small class="fw-light">uploaded a photo to <strong><a href="/album/<%= image.album?._id %>" class="text-reset text-decoration-none"><%= image.album?.name %></a></strong> album</small></h6>
+        <figure>
+          <img src="http://localhost:3000/<%= image.path %>" alt="" class="img-fluid">
+        </figure>
+        <a href="/image/<%= image._id %> " class="btn">view image &rarr;</a>
+      </div>
+    </article>
+    <% })} %> 
+    <% if(publicImages.length >= 1){ %>
+      <a href="" class="btn btn-sm mb-3">next &rarrb;</a>
+    <% } %>
+  </div>
+  <aside class="col-md-3">
+    <div class="d-flex justify-content-between">
+      <h5 class="">Explore Albums</h5>
+    </div>
+    <% if(publicAlbums.length < 1){ %>
+      <p class="text-center text-muted">No albums to show</p>
+    <% } else { %>  
+    <% publicAlbums.forEach(album => { %> 
+    <div class="card shadow-sm mb-2">
+      <div class="card-body">
+        <p class="mb-1 fw-bold"><a href="/album/<%- album._id %> " class="text-decoration-none text-reset"><%= album.name %> </a></p>
+        <div class="small">
+          <span><a href="" class="text-reset text-decoration-none"><i class="fa fa-user-o"></i> <%= album.user.fullName %></a></span>
+        </div>
+      </div>
+    </div>
+    <% })} %>
+    <!-- <%# if(publicAlbums.length >= 1){ %>
+      <a href="" class="btn btn-sm">view all albums</a>
+    <%# } %> -->
+  </aside>
+</section>
+<%- include("./partials/footer") %> 

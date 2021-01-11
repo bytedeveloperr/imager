@@ -1,0 +1,52 @@
+<%- include("../partials/head") %> 
+<%- include("../partials/topbar") %> 
+<section class="row">
+    <aside class="col-md-6 offset-md-3">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" action="/image/upload">
+                    <h4 class="fw-bold mb-3">Upload Image(s)</h4>
+                    <% if(error != ""){ %> 
+                        <div class="alert alert-danger" role="alert"><%= error %></div>
+                    <%}%>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Image(s) Title</label>
+                        <input type="text" class="form-control" name="title" id="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Image Tags <small>(separate with comma)</small></label>
+                        <input type="text" class="form-control" name="tags" id="tags">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Image Description</label>
+                        <textarea class="form-control" name="description" id="description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="license" class="form-label">License</label>
+                        <input type="text" class="form-control" name="license" id="license" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="credits" class="form-label">Credits</label>
+                        <input type="text" class="form-control" name="credits" id="credits">
+                    </div>
+                    <div class="mb-3">
+                        <label for="album" class="form-label">Select Album <small>(or an album <a href="/album/create" class="text-decoration-none">here</a>)</small></label>
+                        <select class="form-select" id="album" name="album" required>
+                            <% albums.forEach( album => { %>
+                                <option value="<%= album.name %>"><%= album.name %></option>
+                            <% }) %> 
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="images" class="btn btn-primary"><i class="fa fa-photo"></i> Select Images</label>
+                        <input type="file" name="images" id="images" accept="image/*" class="d-none" multiple required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </aside>
+</section>
+<%- include("../partials/footer") %> 

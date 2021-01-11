@@ -1,0 +1,32 @@
+{
+	"name": "imager",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon -r dotenv/config index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"argon2": "^0.27.1",
+		"celebrate": "^13.0.4",
+		"cloudinary": "^1.23.0",
+		"connect-flash": "^0.1.1",
+		"connect-mongodb-session": "^2.4.1",
+		"cookie-parser": "^1.4.5",
+		"csurf": "^1.11.0",
+		"cuid": "^2.1.8",
+		"dotenv": "^8.2.0",
+		"ejs": "^3.1.5",
+		"ejs-mate": "^3.0.0",
+		"express": "^4.17.1",
+		"express-session": "^1.17.1",
+		"method-override": "^3.0.0",
+		"mongodb": "^3.6.3",
+		"multer": "^1.4.2",
+		"multer-storage-cloudinary": "^4.0.0"
+	}
+}
