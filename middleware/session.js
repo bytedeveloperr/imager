@@ -1,8 +1,9 @@
 import expressSession from 'express-session';
 import MongoStore from 'connect-mongodb-session';
+import { database } from '../config/index.js';
 
 const store = new MongoStore(expressSession)({
-	uri: 'mongodb://localhost:27017/',
+	uri: database.uri,
 	collection: 'sessions',
 });
 
