@@ -5,6 +5,10 @@ class Query {
 		this.collection = db.collection(collection);
 	}
 
+	getCollection() {
+		return this.collection;
+	}
+
 	async save(data, options = {}) {
 		data = await this.collection.insertOne(data, options);
 		if (data.insertedId) {

@@ -4,18 +4,19 @@ import { AlbumEntity } from './index.js';
 import { permissions } from '../../utils/index.js';
 
 const Album = new Query('albums');
+Album.getCollection().createIndex({ name: 'text', description: 'text' });
 
 class AlbumService {
 	async create(user, album) {
 		let response = {},
-			existingAlbum = await Album.findOne({ name: album.name });
+			existingAlbum = await Album.findOne({ _id: album._id });
 		if (existingAlbum) {
 			if (user !== existingAlbum.user) {
-				response.error = 'Album name is not available';
+				response.error = 'Unable to upload to this album';
 				return response;
 			}
 			existingAlbum.images = [...existingAlbum.images, ...album.images];
-			await Album.updateOne({ name: existingAlbum.name }, existingAlbum);
+			await Album.updateOne({ _id: existingAlbum._id }, existingAlbum);
 			return response;
 		}
 		album._id = cuid();
@@ -24,6 +25,28 @@ class AlbumService {
 		album = await Album.save(album);
 		if (!album) {
 			response.error = 'An error occured while creating album';
+			return response;
+		}
+		response.data = album;
+		return response;
+	}
+
+	async clone(user, albumId) {
+		let response = {},
+			album = await Album.findOne({ _id: albumId });
+		if (!album) {
+			response.error = "The album you're trying to clone does not exists";
+			return response;
+		}
+		album._id = cuid();
+		album.user = user;
+		album.type = 'clone';
+		album.clone = albumId;
+		console.log('album');
+		album = new AlbumEntity(album);
+		album = await Album.save(album);
+		if (!album) {
+			response.error = 'An error occured while cloning album, please try again';
 			return response;
 		}
 		response.data = album;
@@ -101,6 +124,7 @@ class AlbumService {
 				$unwind: '$user',
 			},
 		]);
+
 		return albums[0];
 	}
 
@@ -114,7 +138,7 @@ class AlbumService {
 			return response;
 		}
 		data.user = meta.userId;
-		data.name = album.name;
+		// data.name = album.name;
 		// album.images = [...existingAlbum.images, ...album.images];
 		album = { ...album, ...data };
 		album = new AlbumEntity(album);
@@ -135,6 +159,35 @@ class AlbumService {
 		if (await Album.remove({ _id: meta.albumId })) {
 			return response;
 		}
+	}
+
+	async searchAlbums(text) {
+		let albums = await Album.aggregate([
+			{
+				$match: { $text: { $search: text } },
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'user',
+					foreignField: '_id',
+					as: 'user',
+				},
+			},
+			{
+				$lookup: {
+					from: 'images',
+					localField: 'images',
+					foreignField: '_id',
+					as: 'images',
+				},
+			},
+			{
+				$unwind: '$user',
+			},
+		]);
+
+		return albums;
 	}
 }
 

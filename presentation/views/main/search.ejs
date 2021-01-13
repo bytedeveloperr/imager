@@ -1,0 +1,41 @@
+<%- include("../partials/head") %> 
+<%- include("../partials/topbar") %>
+<section class="row">
+  <aside class="col-md-6 offset-md-3">
+      <h6 class="">Results in Albums</h6>
+    <% if(!albums || albums.length == 0){ %>
+      <p class="text-center text-muted">No result is found for album</p>
+    <% } else { %>  
+    <% albums.forEach(album => { %> 
+    <div class="card shadow-sm mb-2">
+      <div class="card-body">
+        <p class="mb-1 fw-bold"><a href="/album/<%- album._id %> " class="stretched-link text-decoration-none text-reset"><%= album.name %></a></p>
+        <!-- <p class="text-muted "><%#-album.description %></p> -->
+        <div class="text-muted">
+            <span><i class="fa fa-image"></i> <%- album.images.length %> images</span>
+        </div>
+      </div>
+    </div>
+    <% })} %>
+  </aside>
+</section>
+<section class="row">
+  <aside class="col-md-6 offset-md-3">
+      <h6 class="">Results in Images</h6>
+    <% if(!images || images.length == 0){ %>
+      <p class="text-center text-muted">No result is found for images</p>
+    <% } else { %>  
+    <% images.forEach(image => { %> 
+    <div class="card shadow-sm mb-2">
+      <div class="card-body">
+        <p class="mb-1 fw-bold"><a href="/image/<%- image._id %> " class="stretched-link text-decoration-none text-reset"><%= image.name %></a></p>
+        <!-- <p class="text-muted "><%#-image.description %></p> -->
+        <div class="text-muted">
+            <span><i class="fa fa-image"></i> <%- image.images.length %> images</span>
+        </div>
+      </div>
+    </div>
+    <% })} %>
+  </aside>
+</section>
+<%- include("../partials/footer") %> 

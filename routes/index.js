@@ -7,6 +7,7 @@ import { validations, loggedin, upload } from '../middleware/index.js';
 
 const routes = (router) => {
 	router.get('/', loggedin(), controller(MainController.index));
+	router.get('/search', controller(MainController.search));
 	router
 		.route('/register')
 		.get(controller(AuthController.register))
@@ -41,8 +42,13 @@ const routes = (router) => {
 		.get(controller(AlbumController.single))
 		.put(loggedin(), validations.album(), controller(AlbumController.update))
 		.delete(loggedin(), controller(AlbumController.delete));
+	router.post(
+		'/album/clone/:albumId',
+		loggedin(),
+		controller(AlbumController.clone)
+	);
 
-	router.use(controller(MainController.page404));
+	router.use('*', controller(MainController.page404));
 	router.use((err, req, res, next) => {
 		res.send();
 	});

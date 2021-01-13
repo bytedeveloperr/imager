@@ -9,6 +9,7 @@
                     <% if(error != ""){ %> 
                         <div class="alert alert-danger" role="alert"><%= error %></div>
                     <%}%>
+                    <p class="small"><i class="fa fa-info"></i> The details provided here will be applied to all the images uploaded, but you can update each image details individually after upload</p>
                     <div class="mb-3">
                         <label for="title" class="form-label">Image(s) Title</label>
                         <input type="text" class="form-control" name="title" id="title" required>
@@ -30,10 +31,10 @@
                         <input type="text" class="form-control" name="credits" id="credits">
                     </div>
                     <div class="mb-3">
-                        <label for="album" class="form-label">Select Album <small>(or an album <a href="/album/create" class="text-decoration-none">here</a>)</small></label>
+                        <label for="album" class="form-label">Select Album <small>(or create an album <a href="/album/create" class="text-decoration-none">here</a>)</small></label>
                         <select class="form-select" id="album" name="album" required>
                             <% albums.forEach( album => { %>
-                                <option value="<%= album.name %>"><%= album.name %></option>
+                                <option value="<%= album._id %>"><%= album.name %></option>
                             <% }) %> 
                         </select>
                     </div>

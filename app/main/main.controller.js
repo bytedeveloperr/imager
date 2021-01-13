@@ -28,6 +28,31 @@ class MainController {
 		body = await ejs.render('extras/404', data);
 		return { body };
 	}
+
+	async search(req) {
+		let body,
+			data = {
+				title: 'Search results',
+				loggedinUser: req.session.user || {},
+				images: null,
+				albums: null,
+			};
+		if (req.query.find) {
+			switch (req.query.find) {
+				case 'images':
+					data.images = await ImageService.searchImages(req.query.q);
+					break;
+				case 'albums':
+					data.albums = await AlbumService.searchAlbums(req.query.q);
+					break;
+			}
+		} else {
+			data.albums = await AlbumService.searchAlbums(req.query.q);
+			data.images = await ImageService.searchImages(req.query.q);
+		}
+		body = await ejs.render('main/search', data);
+		return { body };
+	}
 }
 
 export default new MainController();

@@ -2,17 +2,55 @@
 <%- include("../partials/topbar") %> 
 <section class="row">
   <div class="col-md-8">
-    <article class="card shadow-sm mb-2">
-      <div class="card-body">
-         <% if(error != ""){ %> 
-            <div class="alert alert-danger" role="alert"><%= error %></div>
-        <%}%>
-        <h5 class="mb-3"><%= album.name %></h5>
-         <ul class="list-unstyled">
-          <li class="mb-3 "><strong>Total number of Images: </strong>  <%- album.images.length %></li>
-          <li class="mb-3 "><strong>Description: </strong>  <%- album.description %></li>
-        </ul>
-        <h6 class="">Images in this Album</h6>
+    <h5 class="mb-3 mt-0"><%= album.name %> <% if(album.type === "clone") {%><label for="" class="badge bg-info ml-3"><a href="/album/<%- album.clone %>" class="text-decoration-none text-light">cloned</a></label><% }%> </h5>
+    
+    <p class="mb-3">Description: <%- album.description %></p>
+    <div class="d-flex mb-3 justify-content-start">
+      <% if(album.type !== "clone"){ %> 
+      <form action="/album/clone/<%- album._id %>" method="post">
+        <button type="submit" class="btn btn-light btn-sm"><i class="fa fa-clone"></i> clone</button> &nbsp;&nbsp;
+      </form>
+      <%}%>
+        <% if(loggedinUser._id === album.user._id){ %> 
+        <a href="/image/upload" class="btn btn-light btn-sm"><i class="fa fa-upload"></i> upload</a> &nbsp;&nbsp;
+        <a href="" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#editAlbum"><i class="fa fa-edit"></i> update</a> &nbsp;&nbsp;
+      <form action="/album/<%- album._id %>?_method=DELETE" method="post">
+        <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash"></i> delete</button>
+      </form>
+      
+      <div class="modal fade" id="editAlbum" tabindex="-1" aria-labelledby="editAlbumLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editAlbumLabel">Update Album</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/album/<%- album._id %>?_method=PUT">
+                  <div class="mb-3">
+                      <label for="name" class="form-label">Album Name</label>
+                      <input type="text" class="form-control" name="name" id="name" value="<%= album.name %>">
+                  </div>
+                  <div class="mb-3">
+                      <label for="tags" class="form-label">Album Description</label>
+                      <textarea class="form-control" name="description" id="description"><%= album.description %></textarea>
+                  </div>  
+                  <div class="d-grid">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <article class="card shadow-sm mb-2">
+    <div class="card-body">
+      <% if(error != ""){ %> 
+          <div class="alert alert-danger" role="alert"><%= error %></div>
+      <%}%>
+      <h6 class="">Images in this Album</h6>
         <div class="row">
           <% if(album.images.length < 1){ %>
             <p class="text-muted text-center">No image in this album</p>  
@@ -22,40 +60,6 @@
               <a href="/image/<%- image._id %>" class=""><img src="http://localhost:3000/<%- image.path %>" alt="" width="100%" height="200px"></a>
             </div>
           <% })} %>  
-        </div>
-        <div class="d-flex">
-          <% if(loggedinUser._id === album.user._id){ %> 
-          <a href="" class="btn text-primary"  data-bs-toggle="modal" data-bs-target="#editAlbum"><i class="fa fa-edit"></i> update</a>
-          <form action="/album/<%- album._id %>?_method=DELETE" method="post">
-            <button class="btn text-danger" type="submit"><i class="fa fa-trash"></i> delete</button>
-          </form>
-
-          <div class="modal fade" id="editAlbum" tabindex="-1" aria-labelledby="editAlbumLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editAlbumLabel">Update Album</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="/album/<%- album._id %>?_method=PUT">
-                      <div class="mb-3">
-                          <label for="name" class="form-label">Album Name</label>
-                          <input type="text" class="form-control" name="name" id="name" value="<%= album.name %>" readonly>
-                      </div>
-                      <div class="mb-3">
-                          <label for="tags" class="form-label">Album Description</label>
-                          <textarea class="form-control" name="description" id="description"><%= album.description %></textarea>
-                      </div>  
-                      <div class="d-grid">
-                          <button type="submit" class="btn btn-primary">Update</button>
-                      </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <% } %>
         </div>
       </div>
     </article>

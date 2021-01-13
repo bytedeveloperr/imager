@@ -34,7 +34,7 @@ class ImageController {
 				});
 
 				let album = {
-					name: req.body.album,
+					_id: req.body.album,
 					description: req.body.description,
 					user: req.session.user._id,
 					images: [],
@@ -51,11 +51,15 @@ class ImageController {
 	async single(req) {
 		let body,
 			image = await ImageService.getImageById(req.params.imageId),
+			similarImages = await ImageService.searchImages(
+				`${image.title} ${image.description}`
+			),
 			data = {
 				title: 'Image',
 				loggedinUser: req.session.user || {},
 				error: req.flash('error'),
 				image,
+				similarImages,
 			};
 		if (!image) {
 			return { redirect: { url: '/404' } };

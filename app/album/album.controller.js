@@ -23,6 +23,18 @@ class AlbumController {
 		}
 	}
 
+	async clone(req) {
+		let album = await AlbumService.clone(
+			req.session.user._id,
+			req.params.albumId
+		);
+		if (album.error) {
+			req.flash('error', album.error);
+			return { redirect: { url: `/404` } };
+		}
+		return { redirect: { url: `/album/${album.data._id}` } };
+	}
+
 	async fetch(req) {
 		let body,
 			albums = await AlbumService.getUserAlbums(req.session.user._id),

@@ -6,6 +6,11 @@ import { permissions } from '../../utils/index.js';
 // import { UserService } from '../user/index.js';
 
 const Image = new Query('images');
+Image.getCollection().createIndex({
+	name: 'text',
+	description: 'text',
+	title: 'text',
+});
 
 class ImageService {
 	async upload(userId, images, album) {
@@ -24,7 +29,7 @@ class ImageService {
 			response.error = album.error;
 			return response;
 		}
-		response.data = image;
+		response.data = images;
 		return response;
 	}
 
@@ -46,7 +51,7 @@ class ImageService {
 				$lookup: {
 					from: 'albums',
 					localField: 'album',
-					foreignField: 'name',
+					foreignField: '_id',
 					as: 'album',
 				},
 			},
@@ -75,7 +80,7 @@ class ImageService {
 				$lookup: {
 					from: 'albums',
 					localField: 'album',
-					foreignField: 'name',
+					foreignField: '_id',
 					as: 'album',
 				},
 			},
@@ -105,7 +110,7 @@ class ImageService {
 				$lookup: {
 					from: 'albums',
 					localField: 'album',
-					foreignField: 'name',
+					foreignField: '_id',
 					as: 'album',
 				},
 			},
@@ -149,6 +154,37 @@ class ImageService {
 		if (await Image.remove({ _id: meta.imageId })) {
 			return response;
 		}
+	}
+
+	async searchImages(text) {
+		return await Image.aggregate([
+			{
+				$match: { $text: { $search: text } },
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'user',
+					foreignField: '_id',
+					as: 'user',
+				},
+			},
+			{
+				$lookup: {
+					from: 'albums',
+					localField: 'album',
+					foreignField: '_id',
+					as: 'album',
+				},
+			},
+			{
+				$unwind: '$user',
+			},
+			{
+				$unwind: '$album',
+			},
+		]);
+		// return images;
 	}
 }
 

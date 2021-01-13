@@ -8,7 +8,7 @@
 <section class="row">
   <aside class="col-md-3">
     <div class="d-flex justify-content-between">
-      <h5 class="">Albums</h5> <a href="/album/create" class="text-decoration-none"><i class="fa fa-plus"></i> new</a>
+      <h6 class="">Albums</h6> <a href="/album/create" class="text-decoration-none"><i class="fa fa-plus"></i> new</a>
     </div>
     <% if(userAlbums.length < 1){ %>
       <p class="text-center text-muted">You do not have any album</p>
@@ -16,7 +16,8 @@
     <% userAlbums.forEach(album => { %> 
     <div class="card shadow-sm mb-2">
       <div class="card-body">
-        <p class="mb-1 fw-bold"><a href="/album/<%- album._id %> " class="stretched-link text-decoration-none text-reset"><%= album.name %></a></p>
+        <p class="mb-1 fw-bold"><a href="/album/<%- album._id %> " class="text-decoration-none text-reset"><%= album.name %></a></p>
+        <p class="mb-0 text-muted small"><small><span><i class="fa fa-photo"></i> &nbsp; <%- album.images.length %></span></small></p>
       </div>
     </div>
     <% })} %>
@@ -31,7 +32,7 @@
       </div>
     </div>
     <div class="my-3">
-      <h5 class="">Activites</h5>
+      <h6 class="">Activites</h6>
     </div>
     <% if(publicImages.length < 1){ %>
       <p class="text-center text-muted">No activities to show</p>
@@ -53,7 +54,7 @@
   </div>
   <aside class="col-md-3">
     <div class="d-flex justify-content-between">
-      <h5 class="">Explore Albums</h5>
+      <h6 class="">Explore Albums</h6>
     </div>
     <% if(publicAlbums.length < 1){ %>
       <p class="text-center text-muted">No albums to show</p>
@@ -62,15 +63,12 @@
     <div class="card shadow-sm mb-2">
       <div class="card-body">
         <p class="mb-1 fw-bold"><a href="/album/<%- album._id %> " class="text-decoration-none text-reset"><%= album.name %> </a></p>
-        <div class="small">
-          <span><a href="" class="text-reset text-decoration-none"><i class="fa fa-user-o"></i> <%= album.user.fullName %></a></span>
-        </div>
+        <p class="small mb-0 text-muted">
+          <small><span><i class="fa fa-photo"></i> &nbsp; <%- album.images.length %></span> &bull; <a href="" class="text-reset text-decoration-none"><i class="fa fa-user-o"></i> <%= album.user.fullName %></a></small>
+        </p>
       </div>
     </div>
     <% })} %>
-    <!-- <%# if(publicAlbums.length >= 1){ %>
-      <a href="" class="btn btn-sm">view all albums</a>
-    <%# } %> -->
   </aside>
 </section>
 <%- include("./partials/footer") %> 

@@ -2,12 +2,64 @@
 <%- include("../partials/topbar") %> 
 <section class="row">
   <div class="col-md-8">
+    <h5 class="mb-3"><%= image.title %></h5>
+    <p class="mb-3">Description: <%- image.description%></p>
+    <div class="d-flex mb-3 justify-content-start">
+        <a href="" class="btn btn-light btn-sm"><i class="fa fa-download"></i> download</a> &nbsp;&nbsp;
+        <% if(loggedinUser._id === image.user._id){ %> 
+        <a href="" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#editImage"><i class="fa fa-edit"></i> update</a> &nbsp;&nbsp;
+        <form action="/image/<%- image._id %>?_method=DELETE" method="post">
+          <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash"></i> delete</button>
+        </form>
+
+      <div class="modal fade" id="editImage" tabindex="-1" aria-labelledby="editImageLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editImageLabel">Update Image</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/image/<%- image._id %>?_method=PUT">
+                  <div class="mb-3">
+                      <label for="title" class="form-label">Image Title</label>
+                      <input type="text" class="form-control" name="title" id="title" value="<%= image.title %>">
+                  </div>
+                  <div class="mb-3">
+                      <label for="tags" class="form-label">Image Tags <small>(separate with comma)</small></label>
+                      <input type="text" class="form-control" name="tags" id="tags" value="<%= image.tags %>">
+                  </div>
+                  <div class="mb-3">
+                      <label for="tags" class="form-label">Image Description</label>
+                      <textarea class="form-control" name="description" id="description"><%= image.description %></textarea>
+                  </div>
+                  <div class="mb-3">
+                      <label for="license" class="form-label">License</label>
+                      <input type="text" class="form-control" name="license" id="license" value="<%= image.license %>">
+                  </div>
+                  <div class="mb-3">
+                      <label for="credits" class="form-label">Credits</label>
+                      <input type="text" class="form-control" name="credits" id="credits" value="<%= image.credits %>">
+                  </div>
+                  <div class="mb-3">
+                      <label for="album" class="form-label">Select Album <small>(or an album will be created automatically)</small>()</label>
+                      <input type="text" class="form-control" name="album" id="album" value="<%= image.album.name %>">
+                  </div>
+                  <div class="d-grid">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %> 
+    </div>
     <article class="card shadow-sm mb-2">
       <div class="card-body">
         <% if(error != ""){ %> 
             <div class="alert alert-danger" role="alert"><%= error %></div>
         <%}%>
-        <h5 class="mb-3"><%= image.title %></h5>
          <ul class="list-unstyled">
           <li class="mb-3 "><strong>Tags: </strong> <%- image.tags || '<span class="text-muted">This image has no tags</span>' %></li>
           <li class="mb-3 "><strong>License: </strong> <%- image.license || '<span class="text-muted">This image has no license</span>' %></li>
@@ -15,61 +67,8 @@
           <li class="mb-3 "><strong>Size: </strong>  <%- image.size/1000000 %>MB </li>
         </ul>
         <figure>
-          <h6 class="fw-bold">Description</h6>
-          <figcaption class="mb-3"><%- image.description%></figcaption>
           <img src="http://localhost:3000/<%- image.path %>" alt="" class="img-fluid">
         </figure>
-        <div class="d-flex">
-          <a href="" class="btn text-primary"><i class="fa fa-download"></i> download</a>
-          <% if(loggedinUser._id === image.user._id){ %> 
-          <a href="" class="btn text-primary"  data-bs-toggle="modal" data-bs-target="#editImage"><i class="fa fa-edit"></i> update</a>
-          <form action="/image/<%- image._id %>?_method=DELETE" method="post">
-            <button class="btn text-danger" type="submit"><i class="fa fa-trash"></i> delete</button>
-          </form>
-
-          <div class="modal fade" id="editImage" tabindex="-1" aria-labelledby="editImageLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editImageLabel">Update Image</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="/image/<%- image._id %>?_method=PUT">
-                      <div class="mb-3">
-                          <label for="title" class="form-label">Image Title</label>
-                          <input type="text" class="form-control" name="title" id="title" value="<%= image.title %>">
-                      </div>
-                      <div class="mb-3">
-                          <label for="tags" class="form-label">Image Tags <small>(separate with comma)</small></label>
-                          <input type="text" class="form-control" name="tags" id="tags" value="<%= image.tags %>">
-                      </div>
-                      <div class="mb-3">
-                          <label for="tags" class="form-label">Image Description</label>
-                          <textarea class="form-control" name="description" id="description"><%= image.description %></textarea>
-                      </div>
-                      <div class="mb-3">
-                          <label for="license" class="form-label">License</label>
-                          <input type="text" class="form-control" name="license" id="license" value="<%= image.license %>">
-                      </div>
-                      <div class="mb-3">
-                          <label for="credits" class="form-label">Credits</label>
-                          <input type="text" class="form-control" name="credits" id="credits" value="<%= image.credits %>">
-                      </div>
-                      <div class="mb-3">
-                          <label for="album" class="form-label">Select Album <small>(or an album will be created automatically)</small>()</label>
-                          <input type="text" class="form-control" name="album" id="album" value="<%= image.album.name %>">
-                      </div>
-                      <div class="d-grid">
-                          <button type="submit" class="btn btn-primary">Update</button>
-                      </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <% } %> 
-        </div>
       </div>
     </article>
   </div>
@@ -89,16 +88,22 @@
       <div class="d-flex justify-content-between">
       <h5 class="">Similar Images</h5>
       </div>
-      <% var arr3 = [1,2,3,4,5]; arr3.forEach(a => { %> 
+      <% if(similarImages.length < 1){ %>
+        <p class="text-muted text-center">No similar images</p>
+      <% } else { %>  
+      <% similarImages.forEach(image => { %> 
       <div class="card shadow-sm mb-2">
-        <div class="card-body">
-          <p class="mb-1 fw-bold"><a href="" class="stretched-link text-decoration-none text-reset">Lorem ipsum dolor sit amet.</a></p>
-          <div class="small">
-            <span><i class="fa fa-globe"></i> Public</span>
+        <div class="card-body d-flex">
+          <img src="http://localhost:3000/<%- image.path %>" alt="" class="" width="60px" height="60px"> &nbsp;&nbsp;
+          <div class="">
+            <p class="mb-1 fw-bold"><a href="/image/<%- image._id %> " class="stretched-link text-decoration-none text-reset"><%- image.title %> </a></p>
+            <div class="small">
+              <span><%= image.description %> </span>
+            </div>
           </div>
         </div>
       </div>
-      <% }) %> 
+      <% })} %> 
     </section>
   </aside>
 </section>
