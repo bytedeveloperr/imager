@@ -42,7 +42,8 @@
       <div class="card-body">
         <h6 class="mb-3"><a href="/user/<%= image.user._id %>" class="text-decoration-none text-reset"><%= image.user.fullName %></a>  &rarrb; <small class="fw-light">uploaded a photo to <strong><a href="/album/<%= image.album?._id %>" class="text-reset text-decoration-none"><%= image.album?.name %></a></strong> album</small></h6>
         <figure>
-          <img src="http://localhost:3000/<%= image.path %>" alt="" class="img-fluid">
+          <!-- <img src="http://localhost:3000/<%= image.path %>" alt="" class="img-fluid"> -->
+          <img src="https://imager-724dab.us1.kinto.io/<%= image.path %>" alt="" class="img-fluid">
         </figure>
         <a href="/image/<%= image._id %> " class="btn">view image &rarr;</a>
       </div>

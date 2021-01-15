@@ -67,7 +67,8 @@
           <li class="mb-3 "><strong>Size: </strong>  <%- image.size/1000000 %>MB </li>
         </ul>
         <figure>
-          <img src="http://localhost:3000/<%- image.path %>" alt="" class="img-fluid">
+          <img src="https://imager-724dab.us1.kinto.io/<%- image.path %>" alt="" class="img-fluid">
+          <!-- <img src="http://localhost:3000/<%- image.path %>" alt="" class="img-fluid"> -->
         </figure>
       </div>
     </article>
@@ -94,7 +95,8 @@
       <% similarImages.forEach(image => { %> 
       <div class="card shadow-sm mb-2">
         <div class="card-body d-flex">
-          <img src="http://localhost:3000/<%- image.path %>" alt="" class="" width="60px" height="60px"> &nbsp;&nbsp;
+          <!-- <img src="http://localhost:3000/<%- image.path %>" alt="" class="" width="60px" height="60px"> &nbsp;&nbsp; -->
+          <img src="https://imager-724dab.us1.kinto.io/<%- image.path %>" alt="" class="" width="60px" height="60px"> &nbsp;&nbsp;
           <div class="">
             <p class="mb-1 fw-bold"><a href="/image/<%- image._id %> " class="stretched-link text-decoration-none text-reset"><%- image.title %> </a></p>
             <div class="small">
